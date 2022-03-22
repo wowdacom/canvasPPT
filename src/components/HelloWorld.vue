@@ -3,6 +3,7 @@ import { onMounted, watch } from 'vue';
 import {
   canvasInit,
   drawScreen,
+  drawScreen2,
   drawFlashTitle,
   page,
 } from '../composables/canvasUtils.js';
@@ -13,7 +14,12 @@ const props = defineProps({
 
 onMounted(() => {
   canvasInit('myCanvas');
-  drawScreen();
+  if (page.value === 0) {
+    drawScreen();
+  }
+  if (page.value === 2) {
+    drawScreen2();
+  }
 });
 
 watch(page, (step) => {

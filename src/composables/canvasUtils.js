@@ -3,7 +3,7 @@ import { ref } from 'vue';
 const theCanvas = ref(null);
 const context = ref(null);
 const pawList = ref([]);
-export const page = ref(0);
+export const page = ref(2);
 
 export const canvasInit = (domName) => {
   theCanvas.value = document.getElementById(domName);
@@ -114,4 +114,41 @@ const drawTitle = (x, y, textSize, textContent = 'not find', counter) => {
   context.value.translate(-(x - centerAjustX), -y);
 
   context.value.fillText(textContent, x - centerAjustX, y);
+};
+
+export const drawScreen2 = () => {
+  var speed = 5;
+  var p1 = { x: 485, y: 15 };
+  var p2 = { x: 50, y: 450 };
+  var dx = p2.x - p1.x;
+  var dy = p2.y - p1.y;
+  var distance = Math.sqrt(dx * dx + dy * dy);
+  var moves = distance / speed;
+  var xunits = (p2.x - p1.x) / moves;
+  var yunits = (p2.y - p1.y) / moves;
+  var ball = { x: p1.x, y: p1.y };
+
+  window.requestAnimationFrame(step);
+
+  function step(timestamp) {
+    if (moves > 0) {
+      moves--;
+      ball.x += xunits;
+      ball.y += yunits;
+      context.value.clearRect(0, 0, 500, 500);
+      context.value.save();
+      drawBall(ball.x, ball.y);
+      context.value.restore();
+
+      window.requestAnimationFrame(step);
+    }
+  }
+};
+
+const drawBall = (x, y) => {
+  context.value.fillStyle = '#000000';
+  context.value.beginPath();
+  context.value.arc(x, y, 15, 0, Math.PI * 2, true);
+  context.value.closePath();
+  context.value.fill();
 };
