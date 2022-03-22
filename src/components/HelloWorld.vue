@@ -7,6 +7,10 @@ import {
   page,
 } from '../composables/canvasUtils.js';
 
+const props = defineProps({
+  msg: String,
+});
+
 onMounted(() => {
   canvasInit('myCanvas');
   drawScreen();
@@ -14,12 +18,8 @@ onMounted(() => {
 
 watch(page, (step) => {
   if (step === 1) {
-    drawFlashTitle();
+    drawFlashTitle(props.msg);
   }
-});
-
-defineProps({
-  msg: String,
 });
 </script>
 
